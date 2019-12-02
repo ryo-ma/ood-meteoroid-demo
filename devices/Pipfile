@@ -6,6 +6,17 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
+flask = "*"
+requests = "*"
+rpi-ws281x = "*"
+"RPi.GPIO" = "*"
+adafruit-platformdetect = "*"
+adafruit-blinka = "*"
+adafruit-pureio = "*"
+adafruit-circuitpython-neopixel = "*"
 
 [requires]
 python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true

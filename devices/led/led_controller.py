@@ -1,4 +1,4 @@
-import neopixel
+import rpi_ws281x as neopixel
 import time
 
 
@@ -20,17 +20,25 @@ class LEDController:
                                                 LED_INVERT,
                                                 LED_BRIGHTNESS,
                                                 LED_CHANNEL)
+        self.strip.begin()
 
-    def on(self, color, pattern):
+    def on(self, color_name, pattern):
         func = getattr(self, pattern)
-        func(color)
+        color = neopixel.Color(0, 0, 255)
+        if color_name == 'blue':
+            color = neopixel.Color(0, 0, 255)
+        elif color_name == 'red':
+            color = neopixel.Color(0, 255, 0)
+        elif color_name == 'green':
+            color = neopixel.Color(255, 0, 0)
+        func(color, 10)
 
     def on_rainbow(self, pattern):
         func = getattr(self, pattern)
         func()
 
     def off(self):
-        self.colorWipe(self.strip, neopixel.Color(0, 0, 0), 10)
+        self.color_wipe(neopixel.Color(0, 0, 0), 0)
 
     def color_wipe(self, color, wait_ms=50):
         """Wipe color across display a pixel at a time."""
@@ -41,8 +49,8 @@ class LEDController:
 
     def color_flash(self, color, wait_ms1=50, wait_ms2=50):
         for i in range(5):
-            self.color_on(self.strip, color, wait_ms1)
-            self.color_on(self.strip, neopixel.Color(0, 0, 0), wait_ms1)
+            self.color_on(color, wait_ms1)
+            self.color_on(neopixel.Color(0, 0, 0), wait_ms1)
 
     def color_on(self, color, wait_ms=50):
         for i in range(self.strip.numPixels()):
@@ -61,7 +69,7 @@ class LEDController:
                 for i in range(0, self.strip.numPixels(), 3):
                     self.strip.setPixelColor(i+q, 0)
 
-    def wheel(pos):
+    def wheel(self, pos):
         """Generate rainbow colors across 0-255 positions."""
         if pos < 85:
             return neopixel.Color(pos * 3, 255 - pos * 3, 0)
