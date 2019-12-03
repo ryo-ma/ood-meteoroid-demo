@@ -63,7 +63,7 @@ class LEDController:
         for j in range(iterations):
             for q in range(3):
                 for i in range(0, self.strip.numPixels(), 3):
-                    self.trip.setPixelColor(i+q, color)
+                    self.strip.setPixelColor(i+q, color)
                 self.strip.show()
                 time.sleep(wait_ms/1000.0)
                 for i in range(0, self.strip.numPixels(), 3):
