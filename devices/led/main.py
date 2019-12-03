@@ -2,13 +2,12 @@ from flask import Flask, request, jsonify, Response
 from led_controller import LEDController
 
 app = Flask(__name__)
-
+led_controller = LEDController()
 
 @app.route('/control_led', methods=['POST'])
 def control_led():
     if request.headers['Content-Type'] != 'application/json':
         return jsonify(res='error'), 400
-    led_controller = LEDController()
     state = request.json['state']
     if state == 'OFF':
         led_controller.off()

@@ -23,21 +23,24 @@ class LEDController:
         self.strip.begin()
 
     def on(self, color_name, pattern):
+        self.status = 'ON'
         func = getattr(self, pattern)
         color = neopixel.Color(0, 0, 255)
         if color_name == 'blue':
             color = neopixel.Color(0, 0, 255)
         elif color_name == 'red':
-            color = neopixel.Color(0, 255, 0)
-        elif color_name == 'green':
             color = neopixel.Color(255, 0, 0)
+        elif color_name == 'green':
+            color = neopixel.Color(0, 255, 0)
         func(color, 10)
 
     def on_rainbow(self, pattern):
+        self.status = 'ON'
         func = getattr(self, pattern)
         func()
 
     def off(self):
+        self.status = 'OFF'
         self.color_wipe(neopixel.Color(0, 0, 0), 0)
 
     def color_wipe(self, color, wait_ms=50):
@@ -68,6 +71,9 @@ class LEDController:
                 time.sleep(wait_ms/1000.0)
                 for i in range(0, self.strip.numPixels(), 3):
                     self.strip.setPixelColor(i+q, 0)
+            if self.status == 'OFF':
+                self.off()
+                return
 
     def wheel(self, pos):
         """Generate rainbow colors across 0-255 positions."""
@@ -96,6 +102,9 @@ class LEDController:
                 self.strip.setPixelColor(i, color)
             self.strip.show()
             time.sleep(wait_ms/1000.0)
+            if self.status == 'OFF':
+                self.off()
+                return
 
     def theater_chase_rainbow(self, wait_ms=50):
         """Rainbow movie theater light style chaser animation."""
@@ -107,3 +116,6 @@ class LEDController:
                 time.sleep(wait_ms/1000.0)
                 for i in range(0, self.strip.numPixels(), 3):
                     self.strip.setPixelColor(i+q, 0)
+            if self.status == 'OFF':
+                self.off()
+                return
