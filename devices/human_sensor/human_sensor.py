@@ -28,9 +28,10 @@ def main(endpoint):
                 orion_client = OrionClient(endpoint)
                 orion_client.patch_attr('HumanSensor1', json.dumps(data))
                 print(realtime_status)
-                time.sleep(1.5)
+                if realtime_status == 'ON':
+                    time.sleep(2.5)
             current_status = realtime_status
-            time.sleep(0.5)
+            time.sleep(0.1)
     except KeyboardInterrupt:
         GPIO.cleanup()
 
