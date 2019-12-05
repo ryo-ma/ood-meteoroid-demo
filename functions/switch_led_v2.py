@@ -19,10 +19,10 @@ def main(args):
     led_url = '{}/control_led'.format(led_endpoint)
     response = requests.post(led_url, headers=headers, data=json.dumps(data))
     if state == 'ON':
-        slack_params = {'channel': '#ood2019',
-                       'username': 'webhookbot',
-                       'text': '{}のパターンでLEDが光りました'.format(args['pattern']),
-                       'icon_emoji': ':ghost:'}
+        slack_params = {
+            'channel': '#ood2019',
+            'text': '{}のパターンでLEDが光りました'.format(args['pattern']),
+        }
         response = requests.post(slack_url, data=json.dumps(slack_params))
     print(args)
     return {'result': 'success'}
